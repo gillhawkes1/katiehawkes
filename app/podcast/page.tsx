@@ -10,7 +10,7 @@ export default function Podcast () {
       try {
         const response = await axios.get(`https://www.buzzsprout.com/api/1450141/episodes.json`, {
           headers: {
-            'Authorization': `Token token=`
+            'Authorization': `Token token=${process.env.NEXT_PUBLIC_BUZZSPROUT_API_TOKEN}`
           }
         });
         console.log('response', response.data);
