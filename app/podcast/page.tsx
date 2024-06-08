@@ -13,7 +13,6 @@ export default function Podcast () {
             'Authorization': `Token token=${process.env.NEXT_PUBLIC_BUZZSPROUT_API_TOKEN}`
           }
         });
-        console.log('response', response.data);
         setData(response.data);
       } catch (error) {
         console.error('error fetching buzzsprout data: ', error);
