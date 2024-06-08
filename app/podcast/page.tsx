@@ -8,11 +8,7 @@ export default function Podcast () {
   useEffect(() => {
     const fetch = async () => {
       try {
-        const response = await axios.get(`https://www.buzzsprout.com/api/1450141/episodes.json`, {
-          headers: {
-            'Authorization': `Token token=${process.env.NEXT_PUBLIC_BUZZSPROUT_API_TOKEN}`
-          }
-        });
+        const response = await axios.get('api/getEpisodes');
         setData(response.data);
       } catch (error) {
         console.error('error fetching buzzsprout data: ', error);
