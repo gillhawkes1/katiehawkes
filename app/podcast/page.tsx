@@ -28,7 +28,7 @@ export default function Podcast () {
         <h1 className="text-3xl font-bold">Contagious Confidence</h1>
         <h2 className="text-1xl">The world needs the most confident version of you!</h2>
         {podcastData.length ? <pre>{podcastData.map((episode) => (
-          <h1 className='p-4'>{episode.title}</h1>
+          <h1 className='p-4 text-wrap'>{episode.title}</h1>
         ))}</pre> : "Loading ..."}
       </div>
     </main>
