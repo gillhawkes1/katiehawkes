@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+console.log(process);
 
 export default function Podcast () {
   const [podcastData, setData] = useState<any[]>([]);
