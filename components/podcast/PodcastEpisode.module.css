@@ -1,0 +1,7 @@
+.episodeContainer {
+  margin-bottom: 1rem;
+}
+
+.episodeContainer :hover {
+  color: blue;
+}
