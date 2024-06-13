@@ -48,14 +48,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       fetchSpotifyEpisodes(access_token, spotifyUrl),
     ]);
 
-    //TODO: update this to sort episodes so they are one combined array of objects to display links to different servies per episode
-    const episodes = {
-      buzzsprout: buzzSproutEpisodes,
-      spotify: spotifyData.episodes
-    }
-
     res.status(200).json({
-      episodes,
+      buzzsprout: buzzSproutEpisodes,
+      spotify: spotifyData.episodes,
       next: {
         spotify: spotifyData.next
       }

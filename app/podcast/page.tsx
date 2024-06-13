@@ -4,26 +4,47 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import PodcastEpisode from '@/components/podcast/PodcastEpisode';
 
-const DEFAULT_LIMIT = 20;
-
 interface Episode {
   id: number;
-  title: string;
-  urls: {
-    spotify: string,
-    buzzsprout: string
-  };
-  description: string;
-  duration: number;
-  artwork_url: string
+  // title: string;
+  // urls: {
+  //   spotify?: string,
+  //   buzzsprout?: string
+  // };
+  // description: string;
+  // duration: number;
+  // date: Date;
+  // season_number: number;
+  // episode_number: number;
 }
 
+interface BuzzsproutEpisode {
+  id: number;
+  title: string;
+  audio_url: string;
+  description: string;
+  duration: number;
+  date: Date;
+  season_number: number;
+  episode_number: number;
+}
+
+interface SpotifyEpisode {
+  name: string;
+  external_urls: {
+    spotify: string;
+  }
+}
+
+const DEFAULT_LIMIT = 20;
+
+
 export default function Podcast () {
-  const [buzzsproutEpisodes, setBuzzsproutEpisodes] = useState([]);
-  const [episodeData, setEpisodes] = useState<any>([]);
+  const [buzzsproutEpisodes, setBuzzsproutEpisodes] = useState<BuzzsproutEpisode[]>([]);
+  const [spotifyEpisodes, setSpotifyEpisodes] = useState<SpotifyEpisode[]>([]);
+  //const [episodeData, setEpisodes] = useState<Episode[]>([]);
   const [next, setNext] = useState({ apple: null, spotify: null, amazon: null });
   const [loading, setLoading] = useState(false);
-  const sortedEpisodes = 
 
   useEffect(() => {
     fetchInitialEpisodes();
@@ -33,16 +54,48 @@ export default function Podcast () {
     setLoading(true);
     try {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/episodes`);
-      const { episodes, next } = response.data;
-      setBuzzsproutEpisodes(episodes.buzzsprout);
-      setEpisodes([...episodes.spotify, ...episodes.buzzsprout]);
+      const { buzzsprout, spotify, next } = response.data;
+      setBuzzsproutEpisodes(buzzsprout);
+      setSpotifyEpisodes(spotify);
+      //setEpisodes(episodes);
       setNext(next);
     } catch (error) {
       console.error('error fetching data: ', error);
     } finally {
+      console.log(buzzsproutEpisodes);
+      console.log(spotifyEpisodes);
+      console.log('sortedEpisodes',sortedEpisodes)
       setLoading(false);
     }
   };
+
+
+  // const response = await axios.get<EpisodesResponse>('/api/episodes', {
+  //   params: {
+  //     nextSpotify: nextUrls.spotify,
+  //     nextApple: nextUrls.apple,
+  //     nextAmazon: nextUrls.amazon
+  //   }
+  // });
+  // const { spotify, apple, amazon, next } = response.data;
+
+  // setEpisodes(prevEpisodes => [
+  //   ...prevEpisodes,
+  //   ...spotify,
+  //   ...apple,
+  //   ...amazon
+  // ]);
+  // setNext(next);
+
+  //TODO: sort and return episodes for each
+  const sortedEpisodes = buzzsproutEpisodes.map(buzzEpisode => {
+    const spotifyEpisode = spotifyEpisodes.find(ep => ep.name === buzzEpisode.title);
+    const episode = {
+      buzzsprout: buzzEpisode,
+      spotify: spotifyEpisode
+    }
+    return episode;
+  });
 
   const fetchMoreEpisodes = async () => {
     //TODO: write this call to /api/episodes
@@ -54,16 +107,13 @@ export default function Podcast () {
         <h1 className="text-3xl font-bold mb-4">Contagious Confidence</h1>
         <h2 className="text-xl mb-6">The world needs the most confident version of you!</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* {episodeData.map((episode) => (
+          {sortedEpisodes.map((ep, index) => (
+            ep.spotify &&
             <PodcastEpisode
-              key={episode.id}
-              title={episode.title}
-              urls={episode.urls}
-              description={episode.description}
-              duration={episode.duration}
-              artwork_url={episode.artwork_url}
+              key={index}
+              episode={ep}
             />
-          ))} */}
+          ))}
         </div>
         {next && (
           <button
