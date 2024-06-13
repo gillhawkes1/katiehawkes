@@ -29,6 +29,9 @@ interface BuzzsproutEpisode {
 interface SpotifyEpisode {
   id: number;
   name: string;
+  external_urls: {
+    spotify: string;
+  }
 }
 
 interface NextUrls {
@@ -53,11 +56,16 @@ const PodcastEpisode: React.FC<Episode> = ({episode}) => {
     <div className={styles.episodeContainer}>
       <h3 className="text-2xl font-semibold">{episode.buzzsprout.title}</h3>
 
-      {/* {urls && (
-        <a href={urls.spotify} target="_blank" rel="noopener noreferrer">
-          <img src="/path/to/spotify-icon.png" alt="Listen on Spotify" className="h-8 w-8 inline-block" />
+      {episode.buzzsprout && (
+        <a href={episode.buzzsprout.audio_url} target="_blank" rel="noopener noreferrer">
+          <img src="buzzsprout.png" alt="Listen on Buzzsprout" className="h-8 w-8 inline-block" />
         </a>
-      )} */}
+      )}
+      {episode.spotify && (
+        <a href={episode.spotify.external_urls.spotify} target="_blank" rel="noopener noreferrer">
+          <img src="spotify.jpg" alt="Listen on Spotify" className="h-8 w-8 inline-block m-3" />
+        </a>
+      )}
     </div>
   );
 };
