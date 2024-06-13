@@ -89,7 +89,7 @@ export default function Podcast () {
 
   //TODO: sort and return episodes for each
   const sortedEpisodes = buzzsproutEpisodes.map(buzzEpisode => {
-    const spotifyEpisode = spotifyEpisodes.find(ep => ep.name === buzzEpisode.title);
+    const spotifyEpisode = spotifyEpisodes.find(ep => (ep.name.trim()) === buzzEpisode.title.trim());
     const episode = {
       buzzsprout: buzzEpisode,
       spotify: spotifyEpisode
