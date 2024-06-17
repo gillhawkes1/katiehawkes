@@ -7,16 +7,6 @@ import PodcastEpisode from '@/components/podcast/PodcastEpisode';
 interface Episode {
   buzzsprout: BuzzsproutEpisode;
   spotify: SpotifyEpisode;
-  // title: string;
-  // urls: {
-  //   spotify?: string,
-  //   buzzsprout?: string
-  // };
-  // description: string;
-  // duration: number;
-  // date: Date;
-  // season_number: number;
-  // episode_number: number;
 }
 
 interface BuzzsproutEpisode {

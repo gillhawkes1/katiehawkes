@@ -4,15 +4,6 @@ import styles from './PodcastEpisode.module.css';
 interface Episode {
   buzzsprout: BuzzsproutEpisode;
   spotify: SpotifyEpisode;
-  // urls: {
-  //   spotify?: string,
-  //   buzzsprout?: string
-  // };
-  // description: string;
-  // duration: number;
-  // date: Date;
-  // season_number: number;
-  // episode_number: number;
 }
 
 interface BuzzsproutEpisode {
