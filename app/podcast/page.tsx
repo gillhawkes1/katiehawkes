@@ -5,7 +5,8 @@ import axios from 'axios';
 import PodcastEpisode from '@/components/podcast/PodcastEpisode';
 
 interface Episode {
-  id: number;
+  buzzsprout: BuzzsproutEpisode;
+  spotify: SpotifyEpisode;
   // title: string;
   // urls: {
   //   spotify?: string,
@@ -30,6 +31,7 @@ interface BuzzsproutEpisode {
 }
 
 interface SpotifyEpisode {
+  id: number;
   name: string;
   external_urls: {
     spotify: string;
@@ -62,9 +64,6 @@ export default function Podcast () {
     } catch (error) {
       console.error('error fetching data: ', error);
     } finally {
-      console.log(buzzsproutEpisodes);
-      console.log(spotifyEpisodes);
-      console.log('sortedEpisodes',sortedEpisodes)
       setLoading(false);
     }
   };
@@ -89,12 +88,13 @@ export default function Podcast () {
 
   //TODO: sort and return episodes for each
   const sortedEpisodes = buzzsproutEpisodes.map(buzzEpisode => {
+    let index: number = 0;
     const spotifyEpisode = spotifyEpisodes.find(ep => (ep.name.trim()) === buzzEpisode.title.trim());
-    const episode = {
+    return {
+      id: index++,
       buzzsprout: buzzEpisode,
       spotify: spotifyEpisode
     }
-    return episode;
   });
 
   const fetchMoreEpisodes = async () => {
@@ -111,7 +111,8 @@ export default function Podcast () {
             ep.spotify &&
             <PodcastEpisode
               key={index}
-              episode={ep}
+              buzzsprout={ep.buzzsprout}
+              spotify={ep.spotify}
             />
           ))}
         </div>

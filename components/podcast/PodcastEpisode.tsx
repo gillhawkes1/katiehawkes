@@ -51,18 +51,18 @@ interface EpisodesResponse {
     amazon: string | null;
   };
 }
-const PodcastEpisode: React.FC<Episode> = ({episode}) => {
+const PodcastEpisode: React.FC<Episode> = ({buzzsprout, spotify}) => {
   return (
     <div className={styles.episodeContainer}>
-      <h3 className="text-2xl font-semibold">{episode.buzzsprout.title}</h3>
+      <h3 className="text-2xl font-semibold">{buzzsprout.title}</h3>
 
-      {episode.buzzsprout && (
-        <a href={episode.buzzsprout.audio_url} target="_blank" rel="noopener noreferrer">
+      {buzzsprout && (
+        <a href={buzzsprout.audio_url} target="_blank" rel="noopener noreferrer">
           <img src="buzzsprout.png" alt="Listen on Buzzsprout" className="h-8 w-8 inline-block" />
         </a>
       )}
-      {episode.spotify && (
-        <a href={episode.spotify.external_urls.spotify} target="_blank" rel="noopener noreferrer">
+      {spotify && (
+        <a href={spotify.external_urls.spotify} target="_blank" rel="noopener noreferrer">
           <img src="spotify.jpg" alt="Listen on Spotify" className="h-8 w-8 inline-block m-3" />
         </a>
       )}
