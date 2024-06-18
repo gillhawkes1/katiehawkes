@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
+import { setCorsHeaders } from '@/utils/cors';
 
 const DEFAULT_LIMIT = 20;
 
@@ -35,6 +36,11 @@ const fetchSpotifyEpisodes = async (token: string, url: string) => {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
+    setCorsHeaders(res, 'GET,POST,OPTIONS');
+    if(req.method === 'OPTIONS') {
+      res.status(200).end();
+      return;
+    }
     const tokenResponse = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/spotify-token`);
     const { access_token } = tokenResponse.data;
 
