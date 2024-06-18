@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import "@/styles/Nav.css"
 import Nav from "@/components/Nav";
+const { version } = require('./package.json');
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" version-next-js-package={version}>
       <body className={inter.className}>
         <Nav />
         {children}
