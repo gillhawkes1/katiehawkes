@@ -36,7 +36,7 @@ const fetchSpotifyEpisodes = async (token: string, url: string) => {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    setCorsHeaders(res, 'GET,POST,OPTIONS');
+    setCorsHeaders(res, 'GET, POST, OPTIONS');
     if(req.method === 'OPTIONS') {
       res.status(200).end();
       return;
