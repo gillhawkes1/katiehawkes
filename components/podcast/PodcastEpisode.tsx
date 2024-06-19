@@ -1,47 +1,7 @@
 import React from 'react';
 import styles from './PodcastEpisode.module.css';
+import { Episode } from '@/app/interfaces/Podcast';
 
-interface Episode {
-  buzzsprout: BuzzsproutEpisode;
-  spotify: SpotifyEpisode;
-}
-
-interface BuzzsproutEpisode {
-  id: number;
-  title: string;
-  audio_url: string;
-  description: string;
-  duration: number;
-  date: Date;
-  season_number: number;
-  episode_number: number;
-}
-
-interface SpotifyEpisode {
-  id: number;
-  name: string;
-  external_urls: {
-    spotify: string;
-  }
-}
-
-interface NextUrls {
-  spotify: string | null;
-  apple: string | null;
-  amazon: string | null;
-}
-
-interface EpisodesResponse {
-  buzzsprout: Episode[];
-  spotify: Episode[];
-  apple: Episode[];
-  amazon: Episode[];
-  next: {
-    spotify: string | null;
-    apple: string | null;
-    amazon: string | null;
-  };
-}
 const PodcastEpisode: React.FC<Episode> = ({buzzsprout, spotify}) => {
   return (
     <div className={styles.episodeContainer}>
