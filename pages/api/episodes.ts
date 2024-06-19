@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
 import { setCorsHeaders } from '@/utils/cors';
+import { formatBuzzsproutData } from '@/utils/episodeUtil';
 
 const DEFAULT_LIMIT = 20;
 
@@ -10,7 +11,8 @@ const fetchBuzzsproutEpisodes = async () => {
         'Authorization': `Token token=${process.env.BUZZSPROUT_API_TOKEN}`
       }
     });
-    return response.data;
+    const formattedData: object[] = formatBuzzsproutData(response.data);
+    return formattedData;
 }
 
 const fetchAmazonEpisodes = async () => {

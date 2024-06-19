@@ -12,6 +12,7 @@ export interface BuzzsproutEpisode {
   date: Date;
   season_number: number;
   episode_number: number;
+  episode_url: string;
 }
 
 export interface SpotifyEpisode {

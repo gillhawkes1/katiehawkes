@@ -8,7 +8,7 @@ const PodcastEpisode: React.FC<Episode> = ({buzzsprout, spotify}) => {
       <h3 className="text-2xl font-semibold">{buzzsprout.title}</h3>
 
       {buzzsprout && (
-        <a href={buzzsprout.audio_url} target="_blank" rel="noopener noreferrer">
+        <a href={buzzsprout.episode_url} target="_blank" rel="noopener noreferrer">
           <img src="buzzsprout.png" alt="Listen on Buzzsprout" className="h-8 w-8 inline-block" />
         </a>
       )}
