@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import PodcastEpisode from '@/components/podcast/PodcastEpisode';
-import { BuzzsproutEpisode, SpotifyEpisode } from '../interfaces/Podcast';
+import { BuzzsproutEpisode, SpotifyEpisode, AppleEpisode } from '../interfaces/Podcast';
 
 const DEFAULT_LIMIT = 20;
 
@@ -11,7 +11,7 @@ const DEFAULT_LIMIT = 20;
 export default function Podcast () {
   const [buzzsproutEpisodes, setBuzzsproutEpisodes] = useState<BuzzsproutEpisode[]>([]);
   const [spotifyEpisodes, setSpotifyEpisodes] = useState<SpotifyEpisode[]>([]);
-  //const [episodeData, setEpisodes] = useState<Episode[]>([]);
+  const [appleEpisodes, setAppleEpisodes] = useState<AppleEpisode[]>([]);
   const [next, setNext] = useState({ apple: null, spotify: null, amazon: null });
   const [loading, setLoading] = useState(false);
 
@@ -23,15 +23,17 @@ export default function Podcast () {
     setLoading(true);
     try {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/episodes`);
-      const { buzzsprout, spotify, next } = response.data;
+      const { buzzsprout, spotify, apple, next } = response.data;
       setBuzzsproutEpisodes(buzzsprout);
       setSpotifyEpisodes(spotify);
+      setAppleEpisodes(apple);
       //setEpisodes(episodes);
       setNext(next);
     } catch (error) {
       console.error('error fetching data: ', error);
     } finally {
       setLoading(false);
+      console.log('sortedEpisodes',sortedEpisodes)
     }
   };
 
@@ -57,10 +59,12 @@ export default function Podcast () {
   const sortedEpisodes = buzzsproutEpisodes.map(buzzEpisode => {
     let index: number = 0;
     const spotifyEpisode = spotifyEpisodes.find(ep => (ep.name.trim()) === buzzEpisode.title.trim());
+    const appleEpisode = appleEpisodes.find(ep => (ep.trackName.trim()) === buzzEpisode.title.trim());
     return {
       id: index++,
       buzzsprout: buzzEpisode,
-      spotify: spotifyEpisode
+      spotify: spotifyEpisode,
+      apple: appleEpisode
     }
   });
 
@@ -75,11 +79,12 @@ export default function Podcast () {
         <h2 className="text-xl mb-6">The world needs the most confident version of you!</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {sortedEpisodes.map((ep, index) => (
-            ep.spotify &&
+            ep.spotify && ep.apple &&
             <PodcastEpisode
               key={index}
               buzzsprout={ep.buzzsprout}
               spotify={ep.spotify}
+              apple={ep.apple}
             />
           ))}
         </div>

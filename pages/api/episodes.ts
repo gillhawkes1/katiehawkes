@@ -20,7 +20,15 @@ const fetchAmazonEpisodes = async () => {
 }
 
 const fetchAppleEpisodes = async () => {
-  
+  const response = await axios.get('https://itunes.apple.com/lookup?id=1539979442&media=podcast&entity=podcastEpisode&limit=200');
+  // res.status(200).json(response.data);
+  // console.log(Object.keys(response.data.results[0]));
+  //console.log(response.data.results);
+  // return {
+  //   episodes: response.data.results,
+  //   next: response.next
+  // };
+  return response.data.results;
 }
 
 const fetchSpotifyEpisodes = async (token: string, url: string) => {
@@ -48,19 +56,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const spotifyUrl = req.query.nextSpotify ? req.query.nextSpotify as string : 'https://api.spotify.com/v1/shows/0GGkDmJt4deYfpf5aLafDw/episodes';
     //TODO: add these in the get functions at top, promise.all, and return data
-    //const appleUrl = req.query.nextApple ? req.query.nextApple as string : '';
     //const amazonUrl = req.query.nextAmazon ? req.query.nextAmazon as string : '';
 
-    const [buzzSproutEpisodes, spotifyData] = await Promise.all([
+    const [buzzSproutEpisodes, spotifyData, appleData] = await Promise.all([
       fetchBuzzsproutEpisodes(),
       fetchSpotifyEpisodes(access_token, spotifyUrl),
+      fetchAppleEpisodes(),
     ]);
 
     res.status(200).json({
       buzzsprout: buzzSproutEpisodes,
       spotify: spotifyData.episodes,
+      apple: appleData,
+      // amazon: amazonData,
       next: {
-        spotify: spotifyData.next
+        spotify: spotifyData.next,
+        // amazon: amazonData.next
       }
     });
   } catch (error) {

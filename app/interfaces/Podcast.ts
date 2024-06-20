@@ -1,6 +1,7 @@
 export interface Episode {
   buzzsprout: BuzzsproutEpisode;
   spotify: SpotifyEpisode;
+  apple: AppleEpisode;
 }
 
 export interface BuzzsproutEpisode {
@@ -21,6 +22,12 @@ export interface SpotifyEpisode {
   external_urls: {
     spotify: string;
   }
+}
+
+export interface AppleEpisode {
+  trackId: number;
+  trackName: string;
+  trackViewUrl: string;
 }
 
 export interface NextUrls {
