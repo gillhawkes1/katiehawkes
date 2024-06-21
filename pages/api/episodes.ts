@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
 import { setCorsHeaders } from '@/utils/cors';
-import { formatBuzzsproutData } from '@/utils/episodeUtil';
+import { formatBuzzsproutData, formatAppleData, formatPodbeanData } from '@/utils/episodeUtil';
 
 const DEFAULT_LIMIT = 20;
 
@@ -11,8 +11,7 @@ const fetchBuzzsproutEpisodes = async () => {
         'Authorization': `Token token=${process.env.BUZZSPROUT_API_TOKEN}`
       }
     });
-    const formattedData: object[] = formatBuzzsproutData(response.data);
-    return formattedData;
+    return formatBuzzsproutData(response.data);
 }
 
 const fetchAmazonEpisodes = async () => {
@@ -29,12 +28,17 @@ const fetchPodbeanEpisodes = async (token: string, url: string, offset: number, 
       'Authorization': `Bearer ${token}`
     }
   });
-  return response.data;
+  const results = {
+    ...response.data,
+    episodes: formatPodbeanData(response.data.episodes)
+  }
+  return results;
 }
 
 const fetchAppleEpisodes = async () => {
   const response = await axios.get('https://itunes.apple.com/lookup?id=1539979442&media=podcast&entity=podcastEpisode&limit=200');
-  return response.data.results;
+  const formattedData: object[] = formatAppleData(response.data.results);
+  return formattedData;
 }
 
 const fetchSpotifyEpisodes = async (token: string, url: string) => {
@@ -73,7 +77,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       fetchSpotifyEpisodes(spotifyAccessToken, spotifyUrl),
       fetchAppleEpisodes(),
       fetchPodbeanEpisodes(podbeanAccessToken, podbeanUrl, 0, 100),
-
     ]);
 
     //TODO: write the next logic for PODBEAN(limit 100), SPOTIFY(limit 20), APPLE (limit 200)

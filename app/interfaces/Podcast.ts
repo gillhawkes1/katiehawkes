@@ -35,6 +35,8 @@ export interface PodbeanEpisode {
   id: string;
   title: string;
   permalink_url: string;
+  season_number: number;
+  episode_number: number;
 }
 
 export interface NextUrls {

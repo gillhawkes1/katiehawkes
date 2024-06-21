@@ -9,6 +9,7 @@ const PodcastEpisode: React.FC<Episode> = ({buzzsprout, spotify, apple, podbean}
   return (
     <div className={styles.episodeContainer}>
       <h3 className="text-2xl font-semibold">{buzzsprout.title}</h3>
+      <h3 className="text-2xl font-semibold">{buzzsprout.season_number}:{buzzsprout.episode_number}</h3>
       <div className="episode-links">
         {buzzsprout && (
           <a href={buzzsprout.episode_url} target="_blank" rel="noopener noreferrer">

@@ -32,7 +32,7 @@ export default function Podcast () {
       //setEpisodes(episodes);
       setNext(next);
     } catch (error) {
-      console.error('error fetching data: ', error);
+      console.error('error fetching podcast page data: ', error);
     } finally {
       setLoading(false);
     }
@@ -61,7 +61,7 @@ export default function Podcast () {
     let index: number = 0;
     const spotifyEpisode = spotifyEpisodes.find(ep => (ep.name.trim()) === buzzEpisode.title.trim());
     const appleEpisode = appleEpisodes.find(ep => (ep.trackName.trim()) === buzzEpisode.title.trim());
-    const podbeanEpisode = podbeanEpisodes.find(ep => (ep.title.trim()) === buzzEpisode.title.trim());
+    const podbeanEpisode = podbeanEpisodes.find(ep => (buzzEpisode.season_number === ep.season_number) && (buzzEpisode.episode_number === ep.episode_number));
     return {
       id: index++,
       buzzsprout: buzzEpisode,
@@ -82,7 +82,7 @@ export default function Podcast () {
         <h2 className="text-xl mb-6">The world needs the most confident version of you!</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {sortedEpisodes.map((ep, index) => (
-            ep.spotify && ep.apple && ep.podbean &&
+            ep.buzzsprout && ep.spotify && ep.apple && ep.podbean &&
             <PodcastEpisode
               key={index}
               buzzsprout={ep.buzzsprout}
@@ -92,6 +92,7 @@ export default function Podcast () {
             />
           ))}
         </div>
+
         {next && (
           <button
             onClick={fetchMoreEpisodes}
