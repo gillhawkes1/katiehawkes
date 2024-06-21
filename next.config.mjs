@@ -6,11 +6,13 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'katiehawkes.com',
+        port: '',
         pathname: '/assets/**',
       },
       {
         protocol: 'http',
-        hostname: 'localhost:3000',
+        hostname: 'localhost',
+        port: '3000',
         pathname: '/assets/**',
       },
     ]

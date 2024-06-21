@@ -19,15 +19,21 @@ const fetchAmazonEpisodes = async () => {
 
 }
 
+const fetchPodbeanEpisodes = async (token: string, url: string, offset: number, limit: number) => {
+  const response = await axios.get(url, {
+    params: {
+      offset: offset,
+      limit: limit,
+    },
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  });
+  return response.data;
+}
+
 const fetchAppleEpisodes = async () => {
   const response = await axios.get('https://itunes.apple.com/lookup?id=1539979442&media=podcast&entity=podcastEpisode&limit=200');
-  // res.status(200).json(response.data);
-  // console.log(Object.keys(response.data.results[0]));
-  //console.log(response.data.results);
-  // return {
-  //   episodes: response.data.results,
-  //   next: response.next
-  // };
   return response.data.results;
 }
 
@@ -51,26 +57,35 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(200).end();
       return;
     }
-    const tokenResponse = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/spotify-token`);
-    const { access_token } = tokenResponse.data;
+    const spotifyTokenResponse = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/spotify-token`);
+    const spotifyAccessToken = spotifyTokenResponse.data.access_token;
+
+    const podbeanTokenResponse = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/podbean-token`);
+    const podbeanAccessToken = podbeanTokenResponse.data.access_token;
 
     const spotifyUrl = req.query.nextSpotify ? req.query.nextSpotify as string : 'https://api.spotify.com/v1/shows/0GGkDmJt4deYfpf5aLafDw/episodes';
+    const podbeanUrl = req.query.nextPodbean ? req.query.nextPodbean as string : 'https://api.podbean.com/v1/episodes';
     //TODO: add these in the get functions at top, promise.all, and return data
     //const amazonUrl = req.query.nextAmazon ? req.query.nextAmazon as string : '';
 
-    const [buzzSproutEpisodes, spotifyData, appleData] = await Promise.all([
+    const [buzzSproutEpisodes, spotifyData, appleData, podbeanData] = await Promise.all([
       fetchBuzzsproutEpisodes(),
-      fetchSpotifyEpisodes(access_token, spotifyUrl),
+      fetchSpotifyEpisodes(spotifyAccessToken, spotifyUrl),
       fetchAppleEpisodes(),
+      fetchPodbeanEpisodes(podbeanAccessToken, podbeanUrl, 0, 100),
+
     ]);
 
+    //TODO: write the next logic for PODBEAN(limit 100), SPOTIFY(limit 20), APPLE (limit 200)
     res.status(200).json({
       buzzsprout: buzzSproutEpisodes,
       spotify: spotifyData.episodes,
       apple: appleData,
+      podbean: podbeanData.episodes,
       // amazon: amazonData,
       next: {
         spotify: spotifyData.next,
+        //podbean: spotifyData.next,
         // amazon: amazonData.next
       }
     });

@@ -2,6 +2,7 @@ export interface Episode {
   buzzsprout: BuzzsproutEpisode;
   spotify: SpotifyEpisode;
   apple: AppleEpisode;
+  podbean: PodbeanEpisode;
 }
 
 export interface BuzzsproutEpisode {
@@ -28,6 +29,12 @@ export interface AppleEpisode {
   trackId: number;
   trackName: string;
   trackViewUrl: string;
+}
+
+export interface PodbeanEpisode {
+  id: string;
+  title: string;
+  permalink_url: string;
 }
 
 export interface NextUrls {

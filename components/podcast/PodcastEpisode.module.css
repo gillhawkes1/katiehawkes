@@ -5,3 +5,8 @@
 .episodeContainer :hover {
   color: blue;
 }
+
+.episode-links img {
+  padding: 2px;
+  margin: 2px;
+}
