@@ -14,8 +14,13 @@ const fetchBuzzsproutEpisodes = async () => {
     return formatBuzzsproutData(response.data);
 }
 
-const fetchAmazonEpisodes = async () => {
-
+const fetchAmazonEpisodes = async (token: string, url: string) => {
+  const response = await axios.get(url, {
+    headers: {
+      'x-api-key': `${process.env.AMAZON_SECURITY_PROFILE_ID}`
+    }
+  });
+  console.log(response);
 }
 
 const fetchPodbeanEpisodes = async (token: string, url: string, offset: number, limit: number) => {
@@ -61,22 +66,29 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(200).end();
       return;
     }
+
+    //TODO: create a promise.all for the tokens
     const spotifyTokenResponse = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/spotify-token`);
     const spotifyAccessToken = spotifyTokenResponse.data.access_token;
 
     const podbeanTokenResponse = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/podbean-token`);
     const podbeanAccessToken = podbeanTokenResponse.data.access_token;
 
-    const spotifyUrl = req.query.nextSpotify ? req.query.nextSpotify as string : 'https://api.spotify.com/v1/shows/0GGkDmJt4deYfpf5aLafDw/episodes';
-    const podbeanUrl = req.query.nextPodbean ? req.query.nextPodbean as string : 'https://api.podbean.com/v1/episodes';
-    //TODO: add these in the get functions at top, promise.all, and return data
-    //const amazonUrl = req.query.nextAmazon ? req.query.nextAmazon as string : '';
+    const amazonTokenResponse = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/amazon-token`);
+    const amazonAccessToken = amazonTokenResponse.data.access_token;
+    console.log('amazon token: ',amazonAccessToken);
 
-    const [buzzSproutEpisodes, spotifyData, appleData, podbeanData] = await Promise.all([
+    //TODO: simplify somehow
+    const spotifyUrl = req.query.nextSpotify ? req.query.nextSpotify as string : 'https://api.spotify.com/v1/shows/0GGkDmJt4deYfpf5aLafDw/episodes';
+    const amazonUrl = req.query.nextAmazon ? req.query.nextAmazon as string : 'https://api.music.amazon.dev/v1/podcasts/shows/b4910557';
+    const podbeanUrl = req.query.nextPodbean ? req.query.nextPodbean as string : 'https://api.podbean.com/v1/episodes';
+
+    const [buzzSproutEpisodes, spotifyData, appleData, podbeanData, amazonData] = await Promise.all([
       fetchBuzzsproutEpisodes(),
       fetchSpotifyEpisodes(spotifyAccessToken, spotifyUrl),
       fetchAppleEpisodes(),
       fetchPodbeanEpisodes(podbeanAccessToken, podbeanUrl, 0, 100),
+      fetchAmazonEpisodes(amazonAccessToken, amazonUrl),
     ]);
 
     //TODO: write the next logic for PODBEAN(limit 100), SPOTIFY(limit 20), APPLE (limit 200)

@@ -22,7 +22,6 @@ export const formatAppleData = (data: AppleEpisode[]) => {
 export const formatPodbeanData = (data: PodbeanEpisode[]) => {
   const res: object[] = data.map((episode: PodbeanEpisode) => {
     let formattedTitle: string = episode.title.includes('...') ? episode.title.split('...')[0] : episode.title;
-    console.log(formattedTitle);
     const formatted = {
       ...episode,
       title: formattedTitle

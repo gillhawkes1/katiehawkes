@@ -3,9 +3,9 @@ import axios from 'axios';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const response = await axios.get('https://api.amazonmusic.com/v1/podcasts/shows/b4910557', {
+    const response = await axios.get('https://api.music.amazon.dev/v1/podcasts/shows/b4910557', {
       headers: {
-        'Authorization': `Bearer ${process.env.AMAZON_MUSIC_API_TOKEN}`
+        'x-api-key': `${process.env.AMAZON_SECURITY_PROFILE_ID}`
       }
     });
     res.status(200).json(response.data);
