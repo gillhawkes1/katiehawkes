@@ -14,16 +14,6 @@ const fetchBuzzsproutEpisodes = async () => {
     return formatBuzzsproutData(response.data);
 }
 
-const fetchAmazonEpisodes = async (token: string, url: string) => {
-  const response = await axios.get(url, {
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'x-api-key': process.env.AMAZON_SECURITY_PROFILE_ID
-    }
-  });
-  console.log(response);
-}
-
 const fetchPodbeanEpisodes = async (token: string, url: string, offset: number, limit: number) => {
   const response = await axios.get(url, {
     params: {
@@ -75,12 +65,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const podbeanTokenResponse = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/podbean-token`);
     const podbeanAccessToken = podbeanTokenResponse.data.access_token;
 
-    const amazonTokenResponse = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/amazon-token`);
-    const amazonAccessToken = amazonTokenResponse.data.access_token;
-
     //TODO: simplify somehow
     const spotifyUrl = req.query.nextSpotify ? req.query.nextSpotify as string : 'https://api.spotify.com/v1/shows/0GGkDmJt4deYfpf5aLafDw/episodes';
-    const amazonUrl = req.query.nextAmazon ? req.query.nextAmazon as string : 'https://api.music.amazon.dev/v1/podcasts/shows/b4910557';
     const podbeanUrl = req.query.nextPodbean ? req.query.nextPodbean as string : 'https://api.podbean.com/v1/episodes';
 
     const [buzzSproutEpisodes, spotifyData, appleData, podbeanData] = await Promise.all([
@@ -88,7 +74,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       fetchSpotifyEpisodes(spotifyAccessToken, spotifyUrl),
       fetchAppleEpisodes(),
       fetchPodbeanEpisodes(podbeanAccessToken, podbeanUrl, 0, 100),
-      //fetchAmazonEpisodes(amazonAccessToken, amazonUrl),
     ]);
 
     //TODO: write the next logic for PODBEAN(limit 100), SPOTIFY(limit 20), APPLE (limit 200)
@@ -97,11 +82,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       spotify: spotifyData.episodes,
       apple: appleData,
       podbean: podbeanData.episodes,
-      // amazon: amazonData,
       next: {
         spotify: spotifyData.next,
         //podbean: spotifyData.next,
-        // amazon: amazonData.next
       }
     });
   } catch (error) {
