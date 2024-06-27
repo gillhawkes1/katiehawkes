@@ -1,5 +1,4 @@
 import React, { useState, FormEvent } from 'react';
-import axios from 'axios';
 import { ContactForm, ContactFormData } from '@/app/interfaces/ContactMe';
 
 const ContactMeForm: React.FC<ContactForm> = ({ onSubmit }) => {
@@ -16,8 +15,9 @@ const ContactMeForm: React.FC<ContactForm> = ({ onSubmit }) => {
   };
 
   return (
+    //TODO: add styling
     <form onSubmit={handleSubmit}>
-      <div>
+      <div className=''>
         <label htmlFor="name">Name:</label>
         <input
           type="text"

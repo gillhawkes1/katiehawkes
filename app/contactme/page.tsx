@@ -1,11 +1,18 @@
+"use client";
+import ContactMeForm from "@/components/contactme/ContactForm";
+import { ContactFormData } from "../interfaces/ContactMe";
+
 export default function ContactMe() {
+  const onSubmit = (formData: ContactFormData) => {
+    //TODO: submit formdata here using nodemailer
+    return formData;
+  }
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-16">
-      <form className="contact-me-container">
-        <div>
-          <h1 className="text-3xl font-bold">Contact Me</h1>
-        </div>
-      </form>
+      <div>
+        <h1 className="text-3xl font-bold">Contact Me</h1>
+        <ContactMeForm onSubmit={onSubmit}/>
+      </div>
     </main>
   );
 }
