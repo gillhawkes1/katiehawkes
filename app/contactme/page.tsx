@@ -2,7 +2,7 @@
 import ContactMeForm from "@/components/contactme/ContactForm";
 import { ContactFormData } from "../interfaces/ContactMe";
 
-//test
+//test 2
 
 export default function ContactMe() {
   const onSubmit = (formData: ContactFormData) => {
