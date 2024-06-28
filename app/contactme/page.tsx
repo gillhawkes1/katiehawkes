@@ -2,8 +2,6 @@
 import ContactMeForm from "@/components/contactme/ContactForm";
 import { ContactFormData } from "../interfaces/ContactMe";
 
-//test 2
-
 export default function ContactMe() {
   const onSubmit = (formData: ContactFormData) => {
     //TODO: submit formdata here using nodemailer
