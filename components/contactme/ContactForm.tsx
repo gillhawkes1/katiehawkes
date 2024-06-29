@@ -1,8 +1,9 @@
-import React, { useState, FormEvent } from 'react';
-import { ContactForm, ContactFormData } from '@/app/interfaces/ContactMe';
+import React, { useState, FormEvent } from "react";
+import { ContactForm, ContactFormData } from "@/app/interfaces/ContactMe";
+import styles from "@/styles/ContactMe.module.css";
 
 const ContactMeForm: React.FC<ContactForm> = ({ onSubmit }) => {
-  const [formData, setFormData] = useState<ContactFormData>({ name: '', email: '', message: '' });
+  const [formData, setFormData] = useState<ContactFormData>({ name: "", email: "", message: "" });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -17,7 +18,7 @@ const ContactMeForm: React.FC<ContactForm> = ({ onSubmit }) => {
   return (
     //TODO: add styling
     <form onSubmit={handleSubmit}>
-      <div className=''>
+      <div className="p-10">
         <label htmlFor="name">Name:</label>
         <input
           type="text"
@@ -28,7 +29,7 @@ const ContactMeForm: React.FC<ContactForm> = ({ onSubmit }) => {
           required
         />
       </div>
-      <div>
+      <div className="p-10">
         <label htmlFor="email">Email:</label>
         <input
           type="email"
@@ -39,7 +40,7 @@ const ContactMeForm: React.FC<ContactForm> = ({ onSubmit }) => {
           required
         />
       </div>
-      <div>
+      <div className="p-10">
         <label htmlFor="message">Message:</label>
         <textarea
           id="message"
@@ -49,7 +50,7 @@ const ContactMeForm: React.FC<ContactForm> = ({ onSubmit }) => {
           required
         />
       </div>
-      <button type="submit">Send</button>
+      <button className={styles.submitButton} type="submit">Send</button>
     </form>
   );
 };
