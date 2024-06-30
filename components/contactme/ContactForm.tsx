@@ -1,58 +1,80 @@
-import React, { useState, FormEvent } from "react";
-import { ContactForm, ContactFormData } from "@/app/interfaces/ContactMe";
-import styles from "@/styles/ContactMe.module.css";
+import React, { useState } from 'react';
+import axios from 'axios';
 
-const ContactMeForm: React.FC<ContactForm> = ({ onSubmit }) => {
-  const [formData, setFormData] = useState<ContactFormData>({ name: "", email: "", message: "" });
+const ContactForm: React.FC = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
-
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    onSubmit(formData);
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    try {
+      const response = await axios.post('/api/contact', {
+        name,
+        email,
+        message,
+      });
+      if (response.status === 200) {
+        setSuccess(true);
+        setName('');
+        setEmail('');
+        setMessage('');
+      }
+    } catch (error) {
+      setError('Failed to send message.');
+    }
   };
 
   return (
-    //TODO: add styling
-    <form onSubmit={handleSubmit}>
-      <div className="p-10">
-        <label htmlFor="name">Name:</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div className="p-10">
-        <label htmlFor="email">Email:</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div className="p-10">
-        <label htmlFor="message">Message:</label>
-        <textarea
-          id="message"
-          name="message"
-          value={formData.message}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <button className={styles.submitButton} type="submit">Send</button>
-    </form>
+    <div className="max-w-md mx-auto p-4 bg-white shadow-md rounded-lg">
+      <form onSubmit={handleSubmit}>
+        <div className="mb-4">
+          <label htmlFor="name" className="block text-gray-700 font-bold mb-2">Name</label>
+          <input
+            id="name"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-full px-3 py-2 border rounded-lg"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="email" className="block text-gray-700 font-bold mb-2">Email</label>
+          <input
+            id="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full px-3 py-2 border rounded-lg"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="message" className="block text-gray-700 font-bold mb-2">Message</label>
+          <textarea
+            id="message"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            className="w-full px-3 py-2 border rounded-lg"
+            required
+          ></textarea>
+        </div>
+        <div className="mb-4">
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700"
+          >
+            Send Message
+          </button>
+        </div>
+        {success && <p className="text-green-500">Message sent successfully!</p>}
+        {error && <p className="text-red-500">{error}</p>}
+      </form>
+    </div>
   );
 };
 
-export default ContactMeForm;
+export default ContactForm;
