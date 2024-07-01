@@ -17,41 +17,46 @@ const ContactMeForm: React.FC<ContactForm> = ({ onSubmit }) => {
 
   return (
     //TODO: add styling
-    <form onSubmit={handleSubmit}>
-      <div className="p-10">
-        <label htmlFor="name">Name:</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div className="p-10">
-        <label htmlFor="email">Email:</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div className="p-10">
-        <label htmlFor="message">Message:</label>
-        <textarea
-          id="message"
-          name="message"
-          value={formData.message}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <button className={styles.submitButton} type="submit">Send</button>
-    </form>
+    <div className="flex max-w-md mx-auto p-4 bg-white shadow-md rounded-md">
+      <form onSubmit={handleSubmit}>
+        <div className="mb-4">
+          <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Name"
+            value={formData.name}
+            onChange={handleChange}
+            className="w-full px-3 py-2 border"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleChange}
+            className="w-full px-3 py-2 border"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <textarea
+            id="message"
+            name="message"
+            placeholder="Message"
+            value={formData.message}
+            onChange={handleChange}
+            className="w-full px-3 py-2 border"
+            required
+          />
+        </div>
+        <button className={styles.submitButton} type="submit">Send</button>
+      </form>
+    </div>
   );
 };
 
