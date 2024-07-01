@@ -17,7 +17,7 @@ const ContactMeForm: React.FC<ContactForm> = ({ onSubmit }) => {
 
   return (
     //TODO: add styling
-    <div className="flex max-w-md mx-auto p-4 bg-white shadow-md rounded-md">
+    <div className="flex max-w-lg mx-auto p-4 bg-white shadow-md rounded-md">
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <input
