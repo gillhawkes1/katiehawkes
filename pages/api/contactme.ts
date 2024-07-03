@@ -18,7 +18,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
     const mailParams: Object = {
       from: process.env.SMTP_USER,
       to: process.env.SMTP_USER,
-      subject: `Website message from ${name}`,
+      subject: `New website message from: ${name}`,
       text: `You have received a new message from ${name} (${email}: \n\n${message})`
     };
 
