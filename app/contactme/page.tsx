@@ -1,10 +1,17 @@
 "use client";
 import ContactMeForm from "@/components/contactme/ContactForm";
+import axios from "axios";
 import { ContactFormData } from "../interfaces/ContactMe";
 
 export default function ContactMe() {
-  const onSubmit = (formData: ContactFormData) => {
+  const onSubmit = async (formData: ContactFormData) => {
     //TODO: submit formdata here using nodemailer
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/contactme`, formData);
+      console.log(response);
+    } catch (error) {
+      
+    }
     return formData;
   }
   return (
