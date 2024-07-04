@@ -8,11 +8,10 @@ export default function ContactMe() {
     //TODO: submit formdata here using nodemailer
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/contactme`, formData);
-      console.log(response);
+      return response;
     } catch (error) {
-      
+      return false;
     }
-    return formData;
   }
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-16">

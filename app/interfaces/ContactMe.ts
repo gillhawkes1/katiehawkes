@@ -1,5 +1,5 @@
 export interface ContactForm {
-  onSubmit: (formData: ContactFormData) => void;
+  onSubmit: (formData: ContactFormData) => Promise<any> | false;
 }
 
 export interface ContactFormData {

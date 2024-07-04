@@ -4,16 +4,25 @@ import styles from "@/styles/ContactMe.module.css";
 
 const ContactMeForm: React.FC<ContactForm> = ({ onSubmit }) => {
   const [formData, setFormData] = useState<ContactFormData>({ name: "", email: "", subject: "", message: "" });
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    onSubmit(formData);
+    const submitStatus = await onSubmit(formData);
+    submitStatus.status === 200 ? submitSuccess() : handleSubmitError();
   };
+
+  //TODO: placeholder for an error, needs updating
+  const handleSubmitError = () => {
+    alert('There was an error sending your message.');
+  }
+
+  const submitSuccess = () => {
+    setFormData({ name: "", email: "", subject: "", message: "" });
+  }
 
   return (
     //TODO: add styling
