@@ -3,7 +3,7 @@ import { ContactForm, ContactFormData } from "@/app/interfaces/ContactMe";
 import styles from "@/styles/ContactMe.module.css";
 
 const ContactMeForm: React.FC<ContactForm> = ({ onSubmit }) => {
-  const [formData, setFormData] = useState<ContactFormData>({ name: "", email: "", message: "" });
+  const [formData, setFormData] = useState<ContactFormData>({ name: "", email: "", subject: "", message: "" });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -36,8 +36,20 @@ const ContactMeForm: React.FC<ContactForm> = ({ onSubmit }) => {
             type="email"
             id="email"
             name="email"
-            placeholder="Email"
+            placeholder="Email address"
             value={formData.email}
+            onChange={handleChange}
+            className="w-full px-3 py-2 border"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <input
+            type="subject"
+            id="subject"
+            name="subject"
+            placeholder="Subject"
+            value={formData.subject}
             onChange={handleChange}
             className="w-full px-3 py-2 border"
             required

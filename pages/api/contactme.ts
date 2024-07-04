@@ -3,7 +3,7 @@ import nodemailer from 'nodemailer';
 import { ContactFormData } from "@/app/interfaces/ContactMe";
 
 export default async function handler (req: NextApiRequest, res: NextApiResponse) {
-  const { name, email, message }: ContactFormData = req.body;
+  const { name, email, subject, message }: ContactFormData = req.body;
   
   try {
     const transporter = nodemailer.createTransport({
@@ -18,8 +18,9 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
     const mailParams: Object = {
       from: process.env.SMTP_USER,
       to: process.env.SMTP_USER,
-      subject: `New website message from: ${name}`,
+      subject: `New website message: ${subject}`,
       html: `
+        <p>${name} sent you a message:</p>
         <p>${message}</p>
         <p><a href="mailto:${email}?subject=Re:%20${encodeURIComponent(message)},%0D%0A%0D%0A">Click here to reply</a></p>
       `,
