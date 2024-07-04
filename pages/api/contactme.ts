@@ -19,7 +19,10 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
       from: process.env.SMTP_USER,
       to: process.env.SMTP_USER,
       subject: `New website message from: ${name}`,
-      text: `You have received a new message from ${name} (${email}: \n\n${message})`
+      html: `
+        <p>${message}</p>
+        <p><a href="mailto:${email}?subject=Re:%20${encodeURIComponent(message)},%0D%0A%0D%0A">Click here to reply</a></p>
+      `,
     };
 
     await transporter.sendMail(mailParams);
