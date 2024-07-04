@@ -35,8 +35,6 @@ export default function Podcast () {
       console.error('error fetching podcast page data: ', error);
     } finally {
       setLoading(false);
-      console.log(podbeanEpisodes)
-      console.log(buzzsproutEpisodes)
     }
   };
 

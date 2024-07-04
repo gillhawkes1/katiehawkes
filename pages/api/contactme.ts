@@ -22,7 +22,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
       html: `
         <p>${name} sent you a message:</p>
         <p>${message}</p>
-        <p><a href="mailto:${email}?subject=Re:%20${encodeURIComponent(message)},%0D%0A%0D%0A">Click here to reply</a></p>
+        <p><a href="mailto:${email}?subject=Re:%20${encodeURIComponent(subject)},%0D%0A%0D%0A">Click here to reply</a></p>
       `,
     };
 
