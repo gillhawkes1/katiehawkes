@@ -40,9 +40,7 @@ export interface PodbeanEpisode {
 }
 
 export interface NextUrls {
-  spotify: string | null;
-  apple: string | null;
-  amazon: string | null;
+  nextSpotify: string | null;
 }
 
 export interface EpisodesResponse {

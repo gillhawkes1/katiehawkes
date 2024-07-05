@@ -69,24 +69,37 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const spotifyUrl = req.query.nextSpotify ? req.query.nextSpotify as string : 'https://api.spotify.com/v1/shows/0GGkDmJt4deYfpf5aLafDw/episodes';
     const podbeanUrl = req.query.nextPodbean ? req.query.nextPodbean as string : 'https://api.podbean.com/v1/episodes';
 
-    const [buzzSproutEpisodes, spotifyData, appleData, podbeanData] = await Promise.all([
-      fetchBuzzsproutEpisodes(),
-      fetchSpotifyEpisodes(spotifyAccessToken, spotifyUrl),
-      fetchAppleEpisodes(),
-      fetchPodbeanEpisodes(podbeanAccessToken, podbeanUrl, 0, 100),
-    ]);
-
-    //TODO: write the next logic for PODBEAN(limit 100), SPOTIFY(limit 20), APPLE (limit 200)
-    res.status(200).json({
-      buzzsprout: buzzSproutEpisodes,
-      spotify: spotifyData.episodes,
-      apple: appleData,
-      podbean: podbeanData.episodes,
-      next: {
-        spotify: spotifyData.next,
-        //podbean: spotifyData.next,
-      }
-    });
+    //for inital fetching; there are no params. could be refactored in the future if we need to do more than two types of fetching here 
+    if(!Object.keys(req.query).length) {
+      const [buzzSproutEpisodes, spotifyData, appleData, podbeanData] = await Promise.all([
+        fetchBuzzsproutEpisodes(),
+        fetchSpotifyEpisodes(spotifyAccessToken, spotifyUrl),
+        fetchAppleEpisodes(),
+        fetchPodbeanEpisodes(podbeanAccessToken, podbeanUrl, 0, 100),
+      ]);
+  
+      //TODO: write the next logic for PODBEAN(limit 100), SPOTIFY(limit 20), APPLE (limit 200)
+      res.status(200).json({
+        buzzsprout: buzzSproutEpisodes,
+        spotify: spotifyData.episodes,
+        apple: appleData,
+        podbean: podbeanData.episodes,
+        nextUrls: {
+          nextSpotify: spotifyData.next,
+        }
+      });
+    } else { //fetch using next links
+      const [spotifyData] = await Promise.all([
+        fetchSpotifyEpisodes(spotifyAccessToken, spotifyUrl)
+      ]);
+      
+      res.status(200).json({
+        spotify: spotifyData.episodes,
+        newNextUrls: {
+          nextSpotify: spotifyData.next,
+        }
+      });
+    }
   } catch (error) {
     console.error('Error fetching data from APIs: ', error);
     res.status(500).json({ error: 'Failed to fetch data from APIs' });
