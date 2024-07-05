@@ -10,7 +10,7 @@ export default function Podcast () {
   const [spotifyEpisodes, setSpotifyEpisodes] = useState<SpotifyEpisode[]>([]);
   const [appleEpisodes, setAppleEpisodes] = useState<AppleEpisode[]>([]);
   const [podbeanEpisodes, setPodbeanEpisodes] = useState<PodbeanEpisode[]>([]);
-  const [nextUrls, setNextUrls] = useState<NextUrls[]>([]);
+  const [nextUrls, setNextUrls] = useState<NextUrls>({ nextSpotify: null, hasMore: true});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -56,6 +56,7 @@ export default function Podcast () {
           ...nextUrls
         }
       });
+
       const { spotify, newNextUrls } = response.data;
 
       setSpotifyEpisodes(prevEpisodes => [
@@ -88,7 +89,7 @@ export default function Podcast () {
           ))}
         </div>
 
-        {nextUrls && (
+        {nextUrls.hasMore && (
           <button
             onClick={fetchMoreEpisodes}
             disabled={loading}

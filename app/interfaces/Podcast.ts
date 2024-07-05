@@ -41,6 +41,7 @@ export interface PodbeanEpisode {
 
 export interface NextUrls {
   nextSpotify: string | null;
+  hasMore: boolean
 }
 
 export interface EpisodesResponse {

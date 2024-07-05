@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
 import { setCorsHeaders } from '@/utils/cors';
 import { formatBuzzsproutData, formatAppleData, formatPodbeanData } from '@/utils/episodeUtil';
+import { NextUrls } from '../../app/interfaces/Podcast';
 
 const DEFAULT_LIMIT = 20;
 
@@ -86,17 +87,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         podbean: podbeanData.episodes,
         nextUrls: {
           nextSpotify: spotifyData.next,
+          hasMore: spotifyData.next !== null ? true : false
         }
       });
     } else { //fetch using next links
       const [spotifyData] = await Promise.all([
         fetchSpotifyEpisodes(spotifyAccessToken, spotifyUrl)
       ]);
-      
+      const newNextUrls: NextUrls = {
+        nextSpotify: spotifyData.next,
+        hasMore: spotifyData.next !== null ? true : false
+      }
       res.status(200).json({
         spotify: spotifyData.episodes,
         newNextUrls: {
-          nextSpotify: spotifyData.next,
+          ...newNextUrls
         }
       });
     }
