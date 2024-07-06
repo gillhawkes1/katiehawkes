@@ -21,7 +21,9 @@ const Nav: React.FC = () => {
   return (
     <nav className="bg-gray-800 text-white">
       <div className="container mx-auto px-4 py-2 flex justify-between items-center">
-        <div className="text-xl font-bold">Your Logo</div>
+        <div className="text-xl font-bold">
+          <img src='/assets/cc_logo.jpg' height={50} width={50} />
+        </div>
         <div className="md:hidden" onClick={toggleMenu}>
           <button className="focus:outline-none">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
