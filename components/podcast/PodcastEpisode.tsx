@@ -8,10 +8,11 @@ const PodcastEpisode: React.FC<Episode> = ({buzzsprout, spotify, apple, podbean}
 
   return (
     <main>
-      <div className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30">
-        <h3 className="text-2xl font-semibold">{buzzsprout.title}</h3>
-        <h5 className="text-lg font-semibold">{buzzsprout.season_number}:{buzzsprout.episode_number}</h5>
-        <div className="episode-links">
+      <div className="p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg justify-center flex space-x-4 hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30">
+        <div className="">
+          <h3 className="text-2xl font-semibold">{buzzsprout.title}</h3>
+          <h5 className="text-lg font-semibold">{buzzsprout.season_number}:{buzzsprout.episode_number}</h5>
+          <div className="episode-links">
           {buzzsprout && (
             <a href={buzzsprout.episode_url} target="_blank" rel="noopener noreferrer">
               <Image src='/assets/buzzsprout.png' alt="Listen on Buzzsprout" className="h-8 w-8 inline-block m-1" width={iconWidthHeight} height={iconWidthHeight} />
@@ -19,7 +20,7 @@ const PodcastEpisode: React.FC<Episode> = ({buzzsprout, spotify, apple, podbean}
           )}
           {spotify && (
             <a href={spotify.external_urls.spotify} target="_blank" rel="noopener noreferrer">
-              <Image src='/assets/spotify.jpg' alt="Listen on Spotify" className="h-8 w-8 inline-block m-1" width={iconWidthHeight} height={iconWidthHeight} />
+              <Image src='/assets/spotify.svg' alt="Listen on Spotify" className="h-8 w-8 inline-block m-1" width={iconWidthHeight} height={iconWidthHeight} />
             </a>
           )}
           {apple && (
@@ -32,6 +33,8 @@ const PodcastEpisode: React.FC<Episode> = ({buzzsprout, spotify, apple, podbean}
               <Image src='/assets/podbean.png' alt="Listen on Podbean" className="h-8 w-8 inline-block m-1" width={iconWidthHeight} height={iconWidthHeight} />
             </a>
           )}
+        </div>
+
         </div>
       </div>
     </main>
