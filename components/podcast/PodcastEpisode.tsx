@@ -8,10 +8,11 @@ const PodcastEpisode: React.FC<Episode> = ({buzzsprout, spotify, apple, podbean}
 
   return (
     <main>
-      <div className="p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg justify-center flex space-x-4 hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30">
-        <div className="">
-          <h3 className="text-2xl font-semibold">{buzzsprout.title}</h3>
-          <h5 className="text-lg font-semibold">{buzzsprout.season_number}:{buzzsprout.episode_number}</h5>
+      <div className="p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg justify-center flex space-y-4 hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30">
+        <div className="flex flex-col items-center">
+          <Image src="/assets/episode_logo.jpg" alt="Podcast Logo" className="rounded-lg" width={300} height={300} />
+          <h3 className="text-lg font-semibold pt-2 text-center">{buzzsprout.title}</h3>
+          <h5 className="text-m font-semibold text-center">S{buzzsprout.season_number} E{buzzsprout.episode_number}</h5>
           <div className="episode-links">
           {buzzsprout && (
             <a href={buzzsprout.episode_url} target="_blank" rel="noopener noreferrer">
