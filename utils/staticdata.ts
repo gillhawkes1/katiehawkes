@@ -1,4 +1,4 @@
-import { Social } from "./app/interfaces/Socials";
+import { Social } from "../app/interfaces/Socials";
 
 export const socials: Social[] = [
   {
@@ -10,5 +10,10 @@ export const socials: Social[] = [
     title: 'LinkedIn',
     image: 'assets/linkedin.svg',
     link: 'https://www.linkedin.com/in/hawkeskatie'
+  },
+  {
+    title: 'Facebook',
+    image: '/assets/facebook.png',
+    link: 'https://www.facebook.com/contagiousconfidencepodcast/'
   }
 ];
