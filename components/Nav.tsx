@@ -3,6 +3,9 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Route } from '@/app/interfaces/Routes';
+// import Image from 'next/image';
+// <Image src='/assets/banner_logo.png' alt="Contagious Confidecne Banner Logo" height={bannerLogoSize} width={bannerLogoSize} />
+
 
 const routes: Route[] = [
   { path: '/', label: 'Home' },
@@ -14,15 +17,17 @@ const routes: Route[] = [
 const Nav: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  //TODO: add functionality that closes nav after going to a new page from nav
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
+  const bannerLogoSize: number = 0;
+
   return (
-    <nav className="bg-gray-800 text-white">
+    <nav className="bg-white-800 text-white p-3">
       <div className="container mx-auto px-4 py-2 flex justify-between items-center">
-        <div className="text-xl font-bold">
-          <img src='/assets/cc_logo.jpg' height={50} width={50} />
+        <div className="text-xl">Katie Hawkes
         </div>
         <div className="md:hidden" onClick={toggleMenu}>
           <button className="focus:outline-none">
