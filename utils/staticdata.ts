@@ -13,7 +13,7 @@ export const socials: Social[] = [
   },
   {
     title: 'Facebook',
-    image: '/assets/facebook.png',
+    image: '/assets/facebook.svg',
     link: 'https://www.facebook.com/contagiousconfidencepodcast/'
   }
 ];
