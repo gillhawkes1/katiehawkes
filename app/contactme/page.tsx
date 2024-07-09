@@ -1,5 +1,5 @@
 "use client";
-import ContactMeForm from "@/components/contactme/ContactForm";
+import ContactMeForm from "@/app/contactme/ContactForm";
 import axios from "axios";
 import { ContactFormData } from "../interfaces/ContactMe";
 
