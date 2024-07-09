@@ -1,5 +1,5 @@
 import React, { useState, FormEvent } from "react";
-import { ContactForm, ContactFormData } from "@/app/interfaces/ContactMe";
+import { ContactForm, ContactFormData } from "@/interfaces/ContactMe";
 import styles from "@/styles/ContactMe.module.css";
 
 const ContactMeForm: React.FC<ContactForm> = ({ onSubmit }) => {

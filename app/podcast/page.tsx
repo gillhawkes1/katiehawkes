@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import PodcastEpisode from '@/app/podcast/PodcastEpisode';
-import { BuzzsproutEpisode, SpotifyEpisode, AppleEpisode, PodbeanEpisode, NextUrls } from '../interfaces/Podcast';
+import { BuzzsproutEpisode, SpotifyEpisode, AppleEpisode, PodbeanEpisode, NextUrls } from '../../interfaces/Podcast';
 
 export default function Podcast () {
   const [buzzsproutEpisodes, setBuzzsproutEpisodes] = useState<BuzzsproutEpisode[]>([]);

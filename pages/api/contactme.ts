@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import nodemailer from 'nodemailer';
-import { ContactFormData } from "@/app/interfaces/ContactMe";
+import { ContactFormData } from "@/interfaces/ContactMe";
 
 export default async function handler (req: NextApiRequest, res: NextApiResponse) {
   const { name, email, subject, message }: ContactFormData = req.body;

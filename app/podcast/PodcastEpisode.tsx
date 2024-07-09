@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './PodcastEpisode.module.css';
-import { Episode } from '@/app/interfaces/Podcast';
+import { Episode } from '@/interfaces/Podcast';
 import Image from 'next/image'
 
 const PodcastEpisode: React.FC<Episode> = ({buzzsprout, spotify, apple, podbean}) => {

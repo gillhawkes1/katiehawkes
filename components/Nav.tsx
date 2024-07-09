@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Route } from '@/app/interfaces/Routes';
+import { Route } from '@/interfaces/Routes';
 // import Image from 'next/image';
 // <Image src='/assets/banner_logo.png' alt="Contagious Confidecne Banner Logo" height={bannerLogoSize} width={bannerLogoSize} />
 

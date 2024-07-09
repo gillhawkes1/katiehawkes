@@ -1,4 +1,4 @@
-import { AppleEpisode, BuzzsproutEpisode, PodbeanEpisode } from "@/app/interfaces/Podcast";
+import { AppleEpisode, BuzzsproutEpisode, PodbeanEpisode } from "@/interfaces/Podcast";
 
 export const formatBuzzsproutData = (data: BuzzsproutEpisode[]) => {
   const res: object[] = data.map((episode: BuzzsproutEpisode) => {

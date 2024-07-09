@@ -1,7 +1,7 @@
 "use client";
 import ContactMeForm from "@/app/contactme/ContactForm";
 import axios from "axios";
-import { ContactFormData } from "../interfaces/ContactMe";
+import { ContactFormData } from "../../interfaces/ContactMe";
 
 export default function ContactMe() {
   const onSubmit = async (formData: ContactFormData) => {

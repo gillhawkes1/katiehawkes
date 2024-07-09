@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
 import { setCorsHeaders } from '@/utils/cors';
 import { formatBuzzsproutData, formatAppleData, formatPodbeanData } from '@/utils/episodeUtil';
-import { NextUrls } from '../../app/interfaces/Podcast';
+import { NextUrls } from '../../interfaces/Podcast';
 
 const DEFAULT_LIMIT = 20;
 
