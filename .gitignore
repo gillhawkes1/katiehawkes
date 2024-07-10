@@ -37,3 +37,7 @@ next-env.d.ts
 
 # api sample gets
 /pages/api/fetch_samples*
+
+# clinic
+/.clinic/
+node_trace.1.log
