@@ -3,9 +3,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Route } from '@/interfaces/Routes';
-// import Image from 'next/image';
-// <Image src='/assets/banner_logo.png' alt="Contagious Confidecne Banner Logo" height={bannerLogoSize} width={bannerLogoSize} />
-
 
 const routes: Route[] = [
   { path: '/', label: 'Home' },
@@ -21,8 +18,6 @@ const Nav: React.FC = () => {
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
-
-  const bannerLogoSize: number = 0;
 
   return (
     <nav className="bg-white-800 text-white p-3">

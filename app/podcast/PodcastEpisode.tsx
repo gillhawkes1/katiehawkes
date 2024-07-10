@@ -1,5 +1,4 @@
 import React from 'react';
-import styles from './PodcastEpisode.module.css';
 import { Episode } from '@/interfaces/Podcast';
 import Image from 'next/image'
 

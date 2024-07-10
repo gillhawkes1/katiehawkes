@@ -4,54 +4,53 @@ import { setCorsHeaders } from '@/utils/cors';
 import { formatBuzzsproutData, formatAppleData, formatPodbeanData } from '@/utils/episodeUtil';
 import { NextUrls } from '../../interfaces/Podcast';
 
-const DEFAULT_LIMIT = 20;
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
-const fetchBuzzsproutEpisodes = async () => {
-  const response = await axios.get('https://www.buzzsprout.com/api/1450141/episodes.json', {
+  const fetchBuzzsproutEpisodes = async () => {
+    const response = await axios.get('https://www.buzzsprout.com/api/1450141/episodes.json', {
+        headers: {
+          'Authorization': `Token token=${process.env.BUZZSPROUT_API_TOKEN}`
+        }
+      });
+      return formatBuzzsproutData(response.data);
+  }
+  
+  const fetchPodbeanEpisodes = async (token: string, url: string, offset: number, limit: number) => {
+    const response = await axios.get(url, {
+      params: {
+        offset: offset,
+        limit: limit,
+      },
       headers: {
-        'Authorization': `Token token=${process.env.BUZZSPROUT_API_TOKEN}`
+        'Authorization': `Bearer ${token}`
       }
     });
-    return formatBuzzsproutData(response.data);
-}
-
-const fetchPodbeanEpisodes = async (token: string, url: string, offset: number, limit: number) => {
-  const response = await axios.get(url, {
-    params: {
-      offset: offset,
-      limit: limit,
-    },
-    headers: {
-      'Authorization': `Bearer ${token}`
+    const results = {
+      ...response.data,
+      episodes: formatPodbeanData(response.data.episodes)
     }
-  });
-  const results = {
-    ...response.data,
-    episodes: formatPodbeanData(response.data.episodes)
+    return results;
   }
-  return results;
-}
-
-const fetchAppleEpisodes = async () => {
-  const response = await axios.get('https://itunes.apple.com/lookup?id=1539979442&media=podcast&entity=podcastEpisode&limit=200');
-  const formattedData: object[] = formatAppleData(response.data.results);
-  return formattedData;
-}
-
-const fetchSpotifyEpisodes = async (token: string, url: string) => {
-  const response = await axios.get(url, {
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  });
-  return {
-    episodes: response.data.items,
-    next: response.data.next
+  
+  const fetchAppleEpisodes = async () => {
+    const response = await axios.get('https://itunes.apple.com/lookup?id=1539979442&media=podcast&entity=podcastEpisode&limit=200');
+    const formattedData: object[] = formatAppleData(response.data.results);
+    return formattedData;
+  }
+  
+  const fetchSpotifyEpisodes = async (token: string, url: string) => {
+    const response = await axios.get(url, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return {
+      episodes: response.data.items,
+      next: response.data.next
+    };
   };
-};
 
-
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  // BUSINESS LOGIC
   try {
     setCorsHeaders(res, 'GET, POST, OPTIONS');
     if(req.method === 'OPTIONS') {
