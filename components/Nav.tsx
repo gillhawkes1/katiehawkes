@@ -22,7 +22,8 @@ const Nav: React.FC = () => {
   return (
     <nav className="bg-white-800 text-white p-3">
       <div className="container mx-auto px-4 py-2 flex justify-between items-center">
-        <div className="text-xl">Katie Hawkes
+        <div className="text-xl">
+          <Link href="/">Katie Hawkes</Link>
         </div>
         <div className="md:hidden" onClick={toggleMenu}>
           <button className="focus:outline-none">
