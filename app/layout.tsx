@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" version-next-js-package={version}>
+    <html lang="en" katiehawkes-version={version}>
       <body className={inter.className}>
         <Nav />
         {children}
